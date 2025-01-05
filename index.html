@@ -23,33 +23,33 @@
         zoom: 18,
       });
 
-      // Coordenadas iniciais e finais da simulação do vento
+      // Coordenadas para a linha que representa o vento
       const windPath = [
-        { lat: -8.0480, lng: -34.8775 }, // Ponto inicial
-        { lat: -8.0470, lng: -34.8760 }  // Ponto final
+        { lat: -8.0478, lng: -34.8775 }, // Ponto inicial do vento
+        { lat: -8.0472, lng: -34.8765 }  // Ponto final do vento
       ];
 
-      // Desenha a linha representando o vento
+      // Cria uma linha para representar o vento
       const windLine = new google.maps.Polyline({
         path: windPath,
         geodesic: true,
-        strokeColor: "#00BFFF", // Cor da linha (azul claro para vento)
+        strokeColor: "#00BFFF", // Azul claro para o vento
         strokeOpacity: 1.0,
         strokeWeight: 4,
         icons: [{
           icon: {
-            path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW, // Define a seta
+            path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW, // Seta representando o vento
             scale: 4, // Tamanho da seta
             strokeColor: "#00BFFF" // Cor da seta
           },
-          offset: "100%" // Posição da seta ao longo da linha
+          offset: "100%" // Posição inicial da seta
         }],
       });
 
       // Adiciona a linha ao mapa
       windLine.setMap(map);
 
-      // Anima a seta ao longo da linha
+      // Animação para mover a seta ao longo da linha
       let count = 0;
       window.setInterval(() => {
         count = (count + 1) % 200;
