@@ -23,41 +23,57 @@
         zoom: 20, // Zoom próximo
       });
 
-      // Coordenadas para simular o vento vindo do leste
-      const windPath = [
-        { lat: -8.040637, lng: -34.898700 }, // Origem do vento (mais distante do leste do prédio)
-        { lat: -8.040637, lng: -34.899011 }  // Impacto no prédio
+      // Coordenadas para as 4 linhas simulando o vento
+      const windPaths = [
+        [
+          { lat: -8.040700, lng: -34.898700 }, // Linha superior
+          { lat: -8.040700, lng: -34.899011 }
+        ],
+        [
+          { lat: -8.040650, lng: -34.898700 }, // Linha intermediária superior
+          { lat: -8.040650, lng: -34.899011 }
+        ],
+        [
+          { lat: -8.040600, lng: -34.898700 }, // Linha intermediária inferior
+          { lat: -8.040600, lng: -34.899011 }
+        ],
+        [
+          { lat: -8.040550, lng: -34.898700 }, // Linha inferior
+          { lat: -8.040550, lng: -34.899011 }
+        ]
       ];
 
-      // Cria a linha para representar o vento
-      const windLine = new google.maps.Polyline({
-        path: windPath,
-        geodesic: true,
-        strokeColor: "#00BFFF", // Cor azul para o vento
-        strokeOpacity: 1.0,
-        strokeWeight: 4,
-        icons: [{
-          icon: {
-            path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW, // Seta para o vento
-            scale: 4, // Tamanho da seta
-            strokeColor: "#00BFFF" // Cor da seta
-          },
-          offset: "100%" // Posição inicial da seta
-        }],
+      // Cria múltiplas linhas para simular o vento
+      windPaths.forEach(path => {
+        const windLine = new google.maps.Polyline({
+          path: path,
+          geodesic: true,
+          strokeColor: "#00BFFF", // Azul para o vento
+          strokeOpacity: 1.0,
+          strokeWeight: 4,
+          icons: [{
+            icon: {
+              path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW, // Seta para o vento
+              scale: 4, // Tamanho da seta
+              strokeColor: "#00BFFF" // Cor da seta
+            },
+            offset: "100%" // Posição inicial da seta
+          }],
+        });
+
+        // Adiciona a linha ao mapa
+        windLine.setMap(map);
+
+        // Animação para mover a seta ao longo da linha
+        let count = 0;
+        window.setInterval(() => {
+          count = (count + 1) % 200;
+
+          const icons = windLine.get("icons");
+          icons[0].offset = (count / 2) + "%";
+          windLine.set("icons", icons);
+        }, 20);
       });
-
-      // Adiciona a linha ao mapa
-      windLine.setMap(map);
-
-      // Animação para mover a seta ao longo da linha
-      let count = 0;
-      window.setInterval(() => {
-        count = (count + 1) % 200;
-
-        const icons = windLine.get("icons");
-        icons[0].offset = (count / 2) + "%";
-        windLine.set("icons", icons);
-      }, 20);
     }
   </script>
 </body>
