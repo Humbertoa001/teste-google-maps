@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Teste do Google Maps</title>
+  <title>Teste do Google Maps com Simulação de Vento</title>
   <style>
     #map {
       height: 500px;
@@ -12,15 +12,52 @@
   </style>
 </head>
 <body>
-  <h1>Teste do Google Maps</h1>
+  <h1>Teste do Google Maps com Simulação de Vento</h1>
   <div id="map"></div>
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD6Vp8CfQy_0KS4qvPk1R9CZB9YgD3GkbQ&callback=initMap" async defer></script> 
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD6Vp8CfQy_0KS4qvPk1R9CZB9YgD3GkbQ&callback=initMap" async defer></script>
   <script>
     function initMap() {
+      // Inicializa o mapa
       const map = new google.maps.Map(document.getElementById("map"), {
         center: { lat: -8.0476, lng: -34.8770 }, // Coordenadas de Recife
         zoom: 18,
       });
+
+      // Coordenadas iniciais e finais da simulação do vento
+      const windPath = [
+        { lat: -8.0480, lng: -34.8775 }, // Ponto inicial
+        { lat: -8.0470, lng: -34.8760 }  // Ponto final
+      ];
+
+      // Desenha a linha representando o vento
+      const windLine = new google.maps.Polyline({
+        path: windPath,
+        geodesic: true,
+        strokeColor: "#00BFFF", // Cor da linha (azul claro para vento)
+        strokeOpacity: 1.0,
+        strokeWeight: 4,
+        icons: [{
+          icon: {
+            path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW, // Define a seta
+            scale: 4, // Tamanho da seta
+            strokeColor: "#00BFFF" // Cor da seta
+          },
+          offset: "100%" // Posição da seta ao longo da linha
+        }],
+      });
+
+      // Adiciona a linha ao mapa
+      windLine.setMap(map);
+
+      // Anima a seta ao longo da linha
+      let count = 0;
+      window.setInterval(() => {
+        count = (count + 1) % 200;
+
+        const icons = windLine.get("icons");
+        icons[0].offset = (count / 2) + "%";
+        windLine.set("icons", icons);
+      }, 20);
     }
   </script>
 </body>
