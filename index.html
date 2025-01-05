@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Teste do Google Maps com Simulação de Vento</title>
+  <title>Simulação de Vento no Prédio</title>
   <style>
     #map {
       height: 500px;
@@ -12,33 +12,33 @@
   </style>
 </head>
 <body>
-  <h1>Teste do Google Maps com Simulação de Vento</h1>
+  <h1>Simulação de Vento no Prédio</h1>
   <div id="map"></div>
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD6Vp8CfQy_0KS4qvPk1R9CZB9YgD3GkbQ&callback=initMap" async defer></script>
   <script>
     function initMap() {
-      // Inicializa o mapa
+      // Inicializa o mapa centrado no prédio
       const map = new google.maps.Map(document.getElementById("map"), {
-        center: { lat: -8.0476, lng: -34.8770 }, // Coordenadas de Recife
-        zoom: 18,
+        center: { lat: -8.040637, lng: -34.899011 }, // Coordenadas do prédio
+        zoom: 20, // Zoom próximo
       });
 
-      // Coordenadas para a linha que representa o vento
+      // Coordenadas para simular o vento vindo do leste
       const windPath = [
-        { lat: -8.0478, lng: -34.8775 }, // Ponto inicial do vento
-        { lat: -8.0472, lng: -34.8765 }  // Ponto final do vento
+        { lat: -8.040637, lng: -34.898900 }, // Origem do vento (leste do prédio)
+        { lat: -8.040637, lng: -34.899011 }  // Impacto no prédio
       ];
 
-      // Cria uma linha para representar o vento
+      // Cria a linha para representar o vento
       const windLine = new google.maps.Polyline({
         path: windPath,
         geodesic: true,
-        strokeColor: "#00BFFF", // Azul claro para o vento
+        strokeColor: "#00BFFF", // Cor azul para o vento
         strokeOpacity: 1.0,
         strokeWeight: 4,
         icons: [{
           icon: {
-            path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW, // Seta representando o vento
+            path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW, // Seta para o vento
             scale: 4, // Tamanho da seta
             strokeColor: "#00BFFF" // Cor da seta
           },
